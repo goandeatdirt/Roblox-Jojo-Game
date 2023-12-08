@@ -1,0 +1,42 @@
+local TS = game:GetService("TweenService")
+local Summon = game.ReplicatedStorage.Remotes:WaitForChild("Summon")
+
+
+
+local info = TweenInfo.new(
+	1,
+	Enum.EasingStyle.Sine,
+	Enum.EasingDirection.Out,
+	0,
+	false,
+	0
+)
+
+
+
+
+
+Summon.OnServerEvent:Connect(function(plr, StandSelection, IsEquipped)
+	if not IsEquipped then
+		local Stand = game.ReplicatedStorage.Stands:FindFirstChild("Your Stand Folder"):Clone()
+		local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+		local char = plr.Character
+		local Weld = Instance.new("Weld", Stand)
+		local Stand_rp = Stand.PrimaryPart
+
+		Stand.Parent = char
+
+		Weld.Part0 = hrp
+		Weld.Part1 = Stand_rp
+
+
+		local tween = TS:Create(Weld, info, {C1 = CFrame.new(2, -1, -2)})
+
+		tween:Play()
+	elseif IsEquipped then
+		
+		local char = plr.Character
+		char:FindFirstChild("Your Stand Folder):Destroy()
+		
+	end
+end)
